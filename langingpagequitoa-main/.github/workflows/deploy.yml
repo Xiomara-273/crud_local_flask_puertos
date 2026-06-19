@@ -12,24 +12,28 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Clonar repositorio
+      uses: actions/checkout@v4
+
     - name: Set up Python 3.12
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: "3.12"
+
     - name: Install dependencies
-      run: pip install -r requirements.txt
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
     - name: Contruir la imagen
       run: docker build -t ghcr.io/xiomara-273/proyecto:3.0.0 .
 
     - name: Login hacia Github Container Registry
       run: echo "${{ secrets.TOKEN_AV }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-    
     - name: Push de la imagen a Github Container Registry
       run: docker push ghcr.io/xiomara-273/proyecto:3.0.0
 
@@ -39,7 +43,6 @@ jobs:
         echo "Host: ${{ secrets.VPS_HOST }}"
         echo "User: ${{ secrets.VPS_USER }}"
         echo "Port: ${{ secrets.VPS_SSH_PORT }}"
-        echo "Password: ${{ secrets.VPS_PASSWORD }}"
 
     - name: Probar conexion ssh
       uses: appleboy/ssh-action@v0.1.5
@@ -49,8 +52,5 @@ jobs:
         port: ${{ secrets.VPS_SSH_PORT }}
         password: ${{ secrets.VPS_PASSWORD }}
         script: |
-          echo "Conexión SSH exitosa"
-          # Aquí puedes agregar comandos adicionales para probar la conexión
-          script: |
           echo "Conexión SSH exitosa"
           touch ejemplo.txt
