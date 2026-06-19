@@ -65,7 +65,7 @@ jobs:
         source: "stack.yml,Mackefile"
         target: "/home/${{ secrets.VPS_USER }}/landingb"
 
-     -name: Desplegando servicios
+    - name: Desplegando servicios
       uses: appleboy/ssh-action@v0.1.5
       with:
         host: ${{ secrets.VPS_HOST }}
