@@ -89,5 +89,5 @@ jobs:
           script: |
             echo "Desplegando servicios..."
             cd ~/quintob
-            docker pull ghcr.io/${OWNER_LC}/app-landing:3.0.0
+            docker pull ghcr.io/xiomara-273/app-landing:3.0.0
             docker stack deploy -c stack.yml borrar

@@ -1,25 +1,27 @@
-version: '3.9'
+version: "3.9"
 
 services:
-xiomara:
-image:  ghcr.io/xiomara-273/proyecto:3.0.0
-networks:
-- traefik-public
-deploy:
-replicas: 1
-update_config:
-parallelism: 1
-delay: 10s
-restart_policy:
-condition: on-failure
-labels:
+  xiomara:
+    image: ghcr.io/xiomara-273/app-landing:3.0.0
+    networks:
+      - traefik-public
+
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+      labels:
         - "traefik.enable=true"
         - "traefik.http.routers.xiomara.entrypoints=http"
-        - "traefik.http.routers.xiomara.rule=Host(xiomara.byronrm.com)"
+        - "traefik.http.routers.xiomara.rule=Host(`xiomara.byronrm.com`)"
         - "traefik.http.middlewares.xiomara-https-redirect.redirectscheme.scheme=https"
         - "traefik.http.routers.xiomara.middlewares=xiomara-https-redirect"
         - "traefik.http.routers.xiomara-secure.entrypoints=https"
-        - "traefik.http.routers.xiomara-secure.rule=Host(xiomara.byronrm.com)"
+        - "traefik.http.routers.xiomara-secure.rule=Host(`xiomara.byronrm.com`)"
         - "traefik.http.routers.xiomara-secure.tls=true"
         - "traefik.http.routers.xiomara-secure.tls.certresolver=http"
         - "traefik.http.routers.xiomara-secure.service=xiomara"
@@ -27,5 +29,5 @@ labels:
         - "traefik.docker.network=traefik-public"
 
 networks:
-traefik-public:
-external: true
+  traefik-public:
+    external: true
