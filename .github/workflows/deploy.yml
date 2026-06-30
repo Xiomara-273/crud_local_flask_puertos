@@ -46,12 +46,12 @@ jobs:
 
       - name: Construir imagen Docker
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/app-landing:3.0.0 .
+          docker build -t ghcr.io/${{ xiomara-273 }}/app-landing:3.0.0 .
 
       - name: Publicar imagen en GHCR
         if: github.event_name == 'push'
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/app-landing:3.0.0
+          docker push ghcr.io/${{ xiomara-273 }}/app-landing:3.0.0
 
       - name: Probar conexión SSH
         if: github.event_name == 'push'
@@ -87,5 +87,5 @@ jobs:
           script: |
             echo "Desplegando servicios..."
             cd ~/quintob
-            docker pull ghcr.io/${{ github.repository_owner }}/app-landing:3.0.0
+            docker pull ghcr.io/${{ xiomara-273}}/app-landing:3.0.0
             docker stack deploy -c stack.yml borrar
